@@ -9,9 +9,13 @@ class Game {
 public:
 	Game();
 
-	void Run();
+	void run();
 
 private:
 	sf::RenderWindow m_window;
+
+private:
+	void handleEvents();
+	void handleKeyPress(sf::Keyboard::Scancode code);
 };
 
