@@ -1,12 +1,33 @@
 #include "Game.h"
 
 Game::Game() {
-	m_window.create(sf::VideoMode({ HEIGHT, WIDTH }), "Rebound", sf::Style::Titlebar | sf::Style::Close);
+	m_window.create(sf::VideoMode({ WIDTH, HEIGHT }), "Rebound", sf::Style::Titlebar | sf::Style::Close);
 	//m_target_circle = sf::CircleShape(50);
     m_game_state = GameState::MainMenu;
+    initMainMenu();
 }
 
-GameState Game::getGameState() {
+void Game::initMainMenu() {
+    sf::RectangleShape button_start({ 300, 50 });
+    sf::RectangleShape button_help({ 300, 50 });
+    sf::RectangleShape button_quit({ 300, 50 });
+
+    m_main_menu_rects[0] = button_start;
+    m_main_menu_rects[1] = button_help;
+    m_main_menu_rects[2] = button_quit;
+
+    const float HEIGHT_COL = HEIGHT / 4;
+    const float WIDTH_CENTER = WIDTH / 2;
+
+    for (int i = 0; i < MAIN_MENU_ARR_SIZE; i++) {
+        m_main_menu_rects[i].setOrigin({ 150.0f, 25.0f });
+        m_main_menu_rects[i].setPosition({ WIDTH_CENTER, HEIGHT_COL * i + HEIGHT_COL });
+        m_main_menu_rects[i].setFillColor(sf::Color::White);
+    }
+    
+}
+
+GameState Game::getGameState() const {
     return m_game_state;
 }
 
@@ -20,7 +41,10 @@ void Game::run() {
 
         m_window.clear();
 
-        // TODO: Draw Shapes In Game 
+        // TODO: Draw Shapes In Game
+        for (int i = 0; i < MAIN_MENU_ARR_SIZE; i++) {
+            m_window.draw(m_main_menu_rects[i]);
+        }
 
         m_window.display();
     }
