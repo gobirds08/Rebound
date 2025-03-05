@@ -1,29 +1,25 @@
 #include "Game.h"
-#include "Button.h"
 
 Game::Game() {
 	m_window.create(sf::VideoMode({ WIDTH, HEIGHT }), "Rebound", sf::Style::Titlebar | sf::Style::Close);
 	//m_target_circle = sf::CircleShape(50);
     m_game_state = GameState::MainMenu;
+    if (!m_font.openFromFile("fonts/arial.ttf")) {
+        throw std::runtime_error("Failed to load font");
+    }
     initMainMenu();
 }
 
 void Game::initMainMenu() {
-    sf::RectangleShape button_start({ 300, 50 });
-    sf::RectangleShape button_help({ 300, 50 });
-    sf::RectangleShape button_quit({ 300, 50 });
-
-    m_main_menu_rects[0] = button_start;
-    m_main_menu_rects[1] = button_help;
-    m_main_menu_rects[2] = button_quit;
+    m_main_menu_buttons.emplace_back("Start", sf::Vector2f{ 300, 50 }, m_font);
+    m_main_menu_buttons.emplace_back("Help", sf::Vector2f{ 300, 50 }, m_font);
+    m_main_menu_buttons.emplace_back("Quit", sf::Vector2f{ 300, 50 }, m_font);
 
     const float HEIGHT_COL = HEIGHT / 4;
     const float WIDTH_CENTER = WIDTH / 2;
 
     for (int i = 0; i < MAIN_MENU_ARR_SIZE; i++) {
-        m_main_menu_rects[i].setOrigin({ 150.0f, 25.0f });
-        m_main_menu_rects[i].setPosition({ WIDTH_CENTER, HEIGHT_COL * i + HEIGHT_COL });
-        m_main_menu_rects[i].setFillColor(sf::Color::White);
+        m_main_menu_buttons[i].setCenterPosition(WIDTH_CENTER, HEIGHT_COL * i + HEIGHT_COL);
     }
     
 }
@@ -37,21 +33,14 @@ void Game::setGameState(GameState gameState) {
 }
 
 void Game::run() {
-    std::filesystem::path font_path = "fonts/arial.ttf";
-    sf::Font font(font_path);
-    Button start("Start", { 300, 50 }, font);
-    start.setCenterPosition(180, 50);
     while (m_window.isOpen()) {
         handleEvents();
 
         m_window.clear();
 
-        // TODO: Draw Shapes In Game
         for (int i = 0; i < MAIN_MENU_ARR_SIZE; i++) {
-            m_window.draw(m_main_menu_rects[i]);
+            m_window.draw(m_main_menu_buttons[i]);
         }
-
-        m_window.draw(start);
 
         m_window.display();
     }
