@@ -31,6 +31,8 @@ private:
 	void handleKeyPress(sf::Keyboard::Scancode code);
 	void handleInGameEvents(const sf::Event& event);
 	void handleMainMenuEvents(const sf::Event& event);
+	void handleMouseLeftClick(sf::Vector2f position);
 	void initMainMenu();
+
 };
 

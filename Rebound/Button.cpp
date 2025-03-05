@@ -18,6 +18,10 @@ void Button::setCenterPosition(float x, float y) {
     centerText();
 }
 
+void Button::setOnClick(std::function<void()> func) {
+    m_onClick = func;
+}
+
 void Button::centerText() {
     sf::FloatRect textBounds = m_text.getLocalBounds();
     sf::Vector2f rect_center = m_rectangle.getGlobalBounds().getCenter();
@@ -29,4 +33,16 @@ void Button::centerText() {
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(m_rectangle, states);
     target.draw(m_text, states);
+}
+
+void Button::onClick() {
+    m_onClick();
+}
+
+bool Button::checkIfClicked(sf::Vector2f position) {
+    sf::FloatRect rectBounds = m_rectangle.getGlobalBounds();
+    if (rectBounds.contains(position)) {
+        return true;
+    }
+    return false;
 }

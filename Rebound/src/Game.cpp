@@ -14,11 +14,17 @@ void Game::initMainMenu() {
     m_main_menu_buttons.emplace_back("Start", sf::Vector2f{ 300, 50 }, m_font);
     m_main_menu_buttons.emplace_back("Help", sf::Vector2f{ 300, 50 }, m_font);
     m_main_menu_buttons.emplace_back("Quit", sf::Vector2f{ 300, 50 }, m_font);
+    
+
+    // TODO: Set Other Button Actions Here
+    m_main_menu_buttons[2].setOnClick([this]() {
+        m_window.close();
+    });
 
     const float HEIGHT_COL = HEIGHT / 4;
     const float WIDTH_CENTER = WIDTH / 2;
 
-    for (int i = 0; i < MAIN_MENU_ARR_SIZE; i++) {
+    for (int i = 0; i < m_main_menu_buttons.size(); i++) {
         m_main_menu_buttons[i].setCenterPosition(WIDTH_CENTER, HEIGHT_COL * i + HEIGHT_COL);
     }
     
@@ -38,7 +44,7 @@ void Game::run() {
 
         m_window.clear();
 
-        for (int i = 0; i < MAIN_MENU_ARR_SIZE; i++) {
+        for (int i = 0; i < m_main_menu_buttons.size(); i++) {
             m_window.draw(m_main_menu_buttons[i]);
         }
 
@@ -72,6 +78,21 @@ void Game::handleInGameEvents(const sf::Event& event) {
 
 void Game::handleMainMenuEvents(const sf::Event& event) {
     // TODO: Implementation
+    if (const auto* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>()) {
+        if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
+            handleMouseLeftClick((sf::Vector2f)mouseButtonPressed->position);
+        }
+    }
+}
+
+void Game::handleMouseLeftClick(sf::Vector2f position) {
+    // Loop through buttons in "scene" and see if we clicked it
+    // If so, then call, the button's onClick method
+    for (int i = 0; i < m_main_menu_buttons.size(); i++) {
+        if (m_main_menu_buttons[i].checkIfClicked(position)) {
+            m_main_menu_buttons[i].onClick();
+        }
+    }
 }
 
 void Game::handleKeyPress(sf::Keyboard::Scancode code) {
