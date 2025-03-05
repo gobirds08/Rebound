@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Button.h"
 
 Game::Game() {
 	m_window.create(sf::VideoMode({ WIDTH, HEIGHT }), "Rebound", sf::Style::Titlebar | sf::Style::Close);
@@ -36,6 +37,9 @@ void Game::setGameState(GameState gameState) {
 }
 
 void Game::run() {
+    std::filesystem::path font_path = "fonts/arial.ttf";
+    sf::Font font(font_path);
+    Button start("Start", { 300, 50 }, font);
     while (m_window.isOpen()) {
         handleEvents();
 
@@ -45,6 +49,8 @@ void Game::run() {
         for (int i = 0; i < MAIN_MENU_ARR_SIZE; i++) {
             m_window.draw(m_main_menu_rects[i]);
         }
+
+        m_window.draw(start);
 
         m_window.display();
     }
