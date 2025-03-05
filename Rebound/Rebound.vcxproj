@@ -140,7 +140,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Button.h" />
+    <ClInclude Include="src\headers\Button.h" />
     <ClInclude Include="src\headers\Game.h" />
   </ItemGroup>
   <ItemGroup>

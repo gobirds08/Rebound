@@ -8,20 +8,22 @@ Button::Button(const std::string& text, const sf::Vector2f& size, const sf::Font
     m_text.setFillColor(sf::Color::Red);
 
     m_rectangle.setSize(size);
+    m_rectangle.setOrigin({ size.x / 2, size.y / 2 });
 
-    setPosition(0, 0);
+    setCenterPosition(size.x / 2, size.y / 2);
 }
 
-void Button::setPosition(float x, float y) {
+void Button::setCenterPosition(float x, float y) {
     m_rectangle.setPosition({ x, y });
     centerText();
 }
 
 void Button::centerText() {
     sf::FloatRect textBounds = m_text.getLocalBounds();
-    sf::FloatRect rectBounds = m_rectangle.getGlobalBounds();
+    sf::Vector2f rect_center = m_rectangle.getGlobalBounds().getCenter();
 
-    // TODO: CENTER HERE
+    m_text.setOrigin({ textBounds.size.x / 2, textBounds.size.y / 2 + textBounds.position.y});
+    m_text.setPosition(rect_center);
 }
 
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {

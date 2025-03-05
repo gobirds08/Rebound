@@ -29,7 +29,7 @@
     <ClInclude Include="src\headers\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
+    <ClInclude Include="src\headers\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

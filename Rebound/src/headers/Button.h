@@ -6,7 +6,7 @@ class Button : public sf::Drawable {
 public:
 	Button(const std::string& text, const sf::Vector2f& size, const sf::Font& font, unsigned int charSize = 24);
 
-	void setPosition(float x, float y);
+	void setCenterPosition(float x, float y);
 
 private:
 	sf::RectangleShape m_rectangle;

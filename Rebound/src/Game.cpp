@@ -40,6 +40,7 @@ void Game::run() {
     std::filesystem::path font_path = "fonts/arial.ttf";
     sf::Font font(font_path);
     Button start("Start", { 300, 50 }, font);
+    start.setCenterPosition(180, 50);
     while (m_window.isOpen()) {
         handleEvents();
 
