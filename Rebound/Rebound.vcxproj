@@ -135,13 +135,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Ball.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\Button.h" />
     <ClInclude Include="src\headers\Game.h" />
+    <ClInclude Include="src\headers\Ball.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\arial.ttf" />

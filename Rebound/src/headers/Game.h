@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Button.h";
+#include "Ball.h"
 #include <vector>
 
 constexpr int HEIGHT = 500;
@@ -25,6 +26,8 @@ private:
 	GameState m_game_state;
 	sf::Font m_font;
 	std::vector<std::unique_ptr<sf::Drawable>> m_shapes;
+	std::unique_ptr<Ball> m_ball;
+	
 
 private:
 	void handleEvents();
@@ -33,6 +36,6 @@ private:
 	void handleMainMenuEvents(const sf::Event& event);
 	void handleMouseLeftClick(sf::Vector2f position);
 	void initMainMenu();
-
+	void initInGame();
 };
 
