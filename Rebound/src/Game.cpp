@@ -11,23 +11,24 @@ Game::Game() {
 }
 
 void Game::initMainMenu() {
-    m_main_menu_buttons.emplace_back("Start", sf::Vector2f{ 300, 50 }, m_font);
-    m_main_menu_buttons.emplace_back("Help", sf::Vector2f{ 300, 50 }, m_font);
-    m_main_menu_buttons.emplace_back("Quit", sf::Vector2f{ 300, 50 }, m_font);
-    
-
-    // TODO: Set Other Button Actions Here
-    m_main_menu_buttons[2].setOnClick([this]() {
-        m_window.close();
-    });
-
     const float HEIGHT_COL = HEIGHT / 4;
     const float WIDTH_CENTER = WIDTH / 2;
 
-    for (int i = 0; i < m_main_menu_buttons.size(); i++) {
-        m_main_menu_buttons[i].setCenterPosition(WIDTH_CENTER, HEIGHT_COL * i + HEIGHT_COL);
+    std::unique_ptr<Button> ptr_button_start = std::make_unique<Button>("Start", sf::Vector2f{ 300, 50 }, m_font);
+    std::unique_ptr<Button> ptr_button_help = std::make_unique<Button>("Help", sf::Vector2f{ 300, 50 }, m_font);
+    std::unique_ptr<Button> ptr_button_quit = std::make_unique<Button>("Quit", sf::Vector2f{ 300, 50 }, m_font);
+
+    ptr_button_quit->setOnClick([this]() {
+        m_window.close();
+    });
+
+    m_shapes.push_back(std::move(ptr_button_start));
+    m_shapes.push_back(std::move(ptr_button_help));
+    m_shapes.push_back(std::move(ptr_button_quit));
+
+    for (int i = 0; i < m_shapes.size(); i++) {
+        static_cast<Button*>(m_shapes[i].get())->setCenterPosition(WIDTH_CENTER, HEIGHT_COL * i + HEIGHT_COL);
     }
-    
 }
 
 GameState Game::getGameState() const {
@@ -44,8 +45,8 @@ void Game::run() {
 
         m_window.clear();
 
-        for (int i = 0; i < m_main_menu_buttons.size(); i++) {
-            m_window.draw(m_main_menu_buttons[i]);
+        for (const auto& shape : m_shapes) {
+            m_window.draw(*shape);
         }
 
         m_window.display();
@@ -88,9 +89,12 @@ void Game::handleMainMenuEvents(const sf::Event& event) {
 void Game::handleMouseLeftClick(sf::Vector2f position) {
     // Loop through buttons in "scene" and see if we clicked it
     // If so, then call, the button's onClick method
-    for (int i = 0; i < m_main_menu_buttons.size(); i++) {
-        if (m_main_menu_buttons[i].checkIfClicked(position)) {
-            m_main_menu_buttons[i].onClick();
+
+    for (int i = 0; i < m_shapes.size(); i++) {
+        if (auto* shape = dynamic_cast<Button*>(m_shapes[i].get())) {
+            if (shape->checkIfClicked(position)) {
+                shape->onClick();
+            }
         }
     }
 }

@@ -23,8 +23,8 @@ private:
 	sf::CircleShape m_target_circle;
 	sf::RectangleShape m_player_rect;
 	GameState m_game_state;
-	std::vector<Button> m_main_menu_buttons;
 	sf::Font m_font;
+	std::vector<std::unique_ptr<sf::Drawable>> m_shapes;
 
 private:
 	void handleEvents();
