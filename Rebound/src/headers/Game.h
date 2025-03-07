@@ -25,8 +25,8 @@ private:
 	sf::RectangleShape m_player_rect;
 	GameState m_game_state;
 	sf::Font m_font;
-	std::vector<std::unique_ptr<sf::Drawable>> m_shapes;
-	std::unique_ptr<Ball> m_ball;
+	std::vector<std::shared_ptr<sf::Drawable>> m_shapes;
+	std::shared_ptr<Ball> m_ball;
 	
 
 private:

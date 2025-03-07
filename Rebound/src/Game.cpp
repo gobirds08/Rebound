@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 
 Game::Game()
 {
@@ -15,9 +16,9 @@ void Game::initMainMenu() {
     const float HEIGHT_COL = HEIGHT / 4;
     const float WIDTH_CENTER = WIDTH / 2;
 
-    std::unique_ptr<Button> ptr_button_start = std::make_unique<Button>("Start", sf::Vector2f{ 300, 50 }, m_font);
-    std::unique_ptr<Button> ptr_button_help = std::make_unique<Button>("Help", sf::Vector2f{ 300, 50 }, m_font);
-    std::unique_ptr<Button> ptr_button_quit = std::make_unique<Button>("Quit", sf::Vector2f{ 300, 50 }, m_font);
+    std::shared_ptr<Button> ptr_button_start = std::make_shared<Button>("Start", sf::Vector2f{ 300, 50 }, m_font);
+    std::shared_ptr<Button> ptr_button_help = std::make_shared<Button>("Help", sf::Vector2f{ 300, 50 }, m_font);
+    std::shared_ptr<Button> ptr_button_quit = std::make_shared<Button>("Quit", sf::Vector2f{ 300, 50 }, m_font);
 
     ptr_button_start->setOnClick([this]() {
         initInGame();
@@ -27,9 +28,9 @@ void Game::initMainMenu() {
         m_window.close();
     });
 
-    m_shapes.push_back(std::move(ptr_button_start));
-    m_shapes.push_back(std::move(ptr_button_help));
-    m_shapes.push_back(std::move(ptr_button_quit));
+    m_shapes.push_back(ptr_button_start);
+    m_shapes.push_back(ptr_button_help);
+    m_shapes.push_back(ptr_button_quit);
 
     for (int i = 0; i < m_shapes.size(); i++) {
         static_cast<Button*>(m_shapes[i].get())->setCenterPosition(WIDTH_CENTER, HEIGHT_COL * i + HEIGHT_COL);
@@ -38,9 +39,13 @@ void Game::initMainMenu() {
 
 void Game::initInGame() {
     m_shapes.clear();
-    m_ball = std::make_unique<Ball>(10.0f);
-    m_ball->setCenterPosition({ 100, 100 });
-    m_shapes.push_back(std::move(m_ball));
+    m_ball = std::make_shared<Ball>(10.0f);
+    m_ball.get()->setCenterPosition({ 100.0f, 100.0f });
+    //m_ball->setCenterPosition({ 100, 100 });
+    m_ball.get()->initializeVelocity({200, 50});
+    //m_ball->initializeVelocity({ 5, 8 });
+    m_shapes.push_back(m_ball);
+    m_game_state = GameState::InGame;
 }
 
 GameState Game::getGameState() const {
@@ -62,6 +67,9 @@ void Game::run() {
 
         m_window.clear();
 
+        if (m_game_state == GameState::InGame && m_ball) {
+            m_ball.get()->update(deltaTime, m_window);
+        }
 
         // TODO: Call Update Function and pass in dt and maybe gameState
         for (const auto& shape : m_shapes) {
