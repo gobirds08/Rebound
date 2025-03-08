@@ -1,13 +1,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "Button.h";
+#include "Button.h"
 #include "Ball.h"
+#include "Basket.h"
 #include <vector>
 
 constexpr int HEIGHT = 500;
 constexpr int WIDTH = 800;
-constexpr int MAIN_MENU_ARR_SIZE = 3;
 enum GameState { MainMenu, InGame };
 
 class Game {
@@ -27,6 +27,7 @@ private:
 	sf::Font m_font;
 	std::vector<std::shared_ptr<sf::Drawable>> m_shapes;
 	std::shared_ptr<Ball> m_ball;
+	std::shared_ptr<Basket> m_basket;
 	
 
 private:

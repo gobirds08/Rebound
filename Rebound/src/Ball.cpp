@@ -16,6 +16,7 @@ void Ball::initializeVelocity(sf::Vector2f velocity) {
 }
 
 void Ball::update(float dt, sf::RenderWindow& window) {
+	// Maybe Collision Handler Can Take In A Vector Of Shapes That Should Collide
 	collisionHandler(window);
 	sf::Vector2f circle_position = m_circle.getPosition();
 	float x = circle_position.x + m_velocity.x * dt;

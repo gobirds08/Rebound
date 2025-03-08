@@ -45,6 +45,11 @@ void Game::initInGame() {
     m_ball.get()->initializeVelocity({200, 50});
     //m_ball->initializeVelocity({ 5, 8 });
     m_shapes.push_back(m_ball);
+
+    m_basket = std::make_shared<Basket>();
+    m_basket.get()->setPosition({ 100, 100 });
+    m_shapes.push_back(m_basket);
+
     m_game_state = GameState::InGame;
 }
 
