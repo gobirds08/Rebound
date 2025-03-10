@@ -27,7 +27,7 @@ private:
 	sf::Font m_font;
 	std::vector<std::shared_ptr<sf::Drawable>> m_shapes;
 	std::shared_ptr<Ball> m_ball;
-	std::shared_ptr<Basket> m_basket;
+	std::unique_ptr<Basket> m_basket;
 	
 
 private:
