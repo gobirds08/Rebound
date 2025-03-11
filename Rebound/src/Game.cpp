@@ -40,8 +40,8 @@ void Game::initMainMenu() {
 void Game::initInGame() {
     m_shapes.clear();
     m_ball = std::make_shared<Ball>(10.0f);
-    m_ball->setCenterPosition({ 100.0f, 100.0f });
-    m_ball->initializeVelocity({200, 50});
+    m_ball->setCenterPosition({ 100.0f, 400.0f });
+    m_ball->initializeVelocity({200, -50});
     m_shapes.push_back(m_ball);
 
     m_basket = std::make_unique<Basket>();

@@ -140,14 +140,12 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Ball.cpp" />
-    <ClCompile Include="src\Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\Basket.h" />
     <ClInclude Include="src\headers\Button.h" />
     <ClInclude Include="src\headers\Game.h" />
     <ClInclude Include="src\headers\Ball.h" />
-    <ClInclude Include="src\headers\Physics.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\arial.ttf" />
