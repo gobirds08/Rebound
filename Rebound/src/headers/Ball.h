@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 constexpr float DEFAULT_GRAVITY = 75.0f;
+constexpr float LAUNCH_CONSTANT = 5;
 
 class Ball : public sf::Drawable {
 public:
@@ -10,6 +11,8 @@ public:
 	void update(float dt, sf::RenderWindow& window);
 	void setCenterPosition(sf::Vector2f position);
 	void initializeVelocity(sf::Vector2f velocity);
+	bool checkIfClicked(sf::Vector2f position);
+	void launch(sf::Vector2f start, sf::Vector2f end);
 
 private:
 	sf::CircleShape m_circle;

@@ -28,6 +28,9 @@ private:
 	std::vector<std::shared_ptr<sf::Drawable>> m_shapes;
 	std::shared_ptr<Ball> m_ball;
 	std::unique_ptr<Basket> m_basket;
+	bool m_isDragging;
+	sf::Vector2f m_start_drag;
+	sf::Vector2f m_end_drag;
 	
 
 private:

@@ -28,21 +28,32 @@ void Ball::update(float dt, sf::RenderWindow& window) {
 	sf::Vector2f circle_position = m_circle.getPosition();
 	float x = circle_position.x + m_velocity.x * dt;
 	float y = circle_position.y + m_velocity.y * dt;
-	if (y + m_circle.getRadius() > window.getSize().y) {
+	/*if (y + m_circle.getRadius() > window.getSize().y) {
 		y = (int)(window.getSize().y - m_circle.getRadius());
 	}
+	if (y - m_circle.getRadius() <= 0) {
+		y = 1 + m_circle.getRadius();
+	}*/
 	setCenterPosition({ x, y });
 }
 
 void Ball::updateVelocityWithGravity(float dt) {
-	//if (m_velocity.y < 0.05) {
-	//	m_velocity.y = 0;
-	//}
-	//if (m_velocity.x < 0.05) {
-	//	m_velocity.x = 0;
-	//}
 	m_velocity.y += m_gravity * dt;
-	
+}
+
+bool Ball::checkIfClicked(sf::Vector2f position) {
+	sf::FloatRect rectBounds = m_circle.getGlobalBounds();
+	if (rectBounds.contains(position)) {
+		return true;
+	}
+	return false;
+}
+
+void Ball::launch(sf::Vector2f start, sf::Vector2f end) {
+	sf::Vector2f launch_velocity;
+	launch_velocity.x = LAUNCH_CONSTANT * (start.x - end.x);
+	launch_velocity.y = LAUNCH_CONSTANT * (start.y - end.y);
+	m_velocity = launch_velocity;
 }
 
 void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -54,7 +65,7 @@ void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	if (!font.openFromFile("fonts/arial.ttf")) {
 		throw std::runtime_error("Failed to load font");
 	}
-	sf::Text y_text(font, std::to_string(m_velocity.x));
+	sf::Text y_text(font, std::to_string(m_velocity.y));
 	y_text.setPosition({ 600, 50 });
 	target.draw(y_text, states);
 }
@@ -63,14 +74,16 @@ void Ball::collisionHandler(sf::RenderWindow& window) {
 	sf::Vector2f position = m_circle.getPosition();
 	float radius = m_circle.getRadius();
 	sf::Vector2u window_size = window.getSize();
-	std::cout << m_velocity.x << std::endl;
-	if (position.y - radius <= 0) {
+	std::cout << position.y - radius << std::endl;
+	if (position.y - radius <= 1) {
 		m_velocity.y *= -.8;
 		m_velocity.x *= .999;
+		m_circle.setPosition({ position.x, radius + 1 });
 	}
 	if (position.y + radius >= window_size.y) {
 		m_velocity.y *= -.8;
 		m_velocity.x *= .999;
+		m_circle.setPosition({ position.x, window_size.y - radius - 1 });
 	}
 	if (position.x - radius <= 0) {
 		m_velocity.x *= -.8;

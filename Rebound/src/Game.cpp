@@ -9,6 +9,7 @@ Game::Game()
         throw std::runtime_error("Failed to load font");
     }
     initMainMenu();
+    m_isDragging = false;
 }
 
 void Game::initMainMenu() {
@@ -41,7 +42,7 @@ void Game::initInGame() {
     m_shapes.clear();
     m_ball = std::make_shared<Ball>(10.0f);
     m_ball->setCenterPosition({ 100.0f, 400.0f });
-    m_ball->initializeVelocity({200, -50});
+    /*m_ball->initializeVelocity({200, -50});*/
     m_shapes.push_back(m_ball);
 
     m_basket = std::make_unique<Basket>();
@@ -100,10 +101,26 @@ void Game::handleEvents() {
 
 
 void Game::handleInGameEvents(const sf::Event& event) {
-    if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
+    /*if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
         handleKeyPress(keyPressed->scancode);
-    } 
-
+    }*/
+    if (const auto* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>()) {
+        if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
+            if (m_ball->checkIfClicked((sf::Vector2f)mouseButtonPressed->position)) {
+                m_isDragging = true;
+                m_start_drag = (sf::Vector2f)mouseButtonPressed->position;
+            }
+        }
+    }
+    if (const auto* mouseButtonReleased = event.getIf<sf::Event::MouseButtonReleased>()) {
+        if (mouseButtonReleased->button == sf::Mouse::Button::Left) {
+            if (m_isDragging) {
+                m_isDragging = false;
+                m_end_drag = (sf::Vector2f)mouseButtonReleased->position;
+                m_ball->launch(m_start_drag, m_end_drag);
+            }
+        }
+    }
     // TODO: Handle Mouse Movement For Player
 }
 
