@@ -1,14 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Basket.h"
 
 constexpr float DEFAULT_GRAVITY = 75.0f;
-constexpr float LAUNCH_CONSTANT = 5;
+constexpr float LAUNCH_CONSTANT = 3;
 
 class Ball : public sf::Drawable {
 public:
 	Ball(float radius);
 
-	void update(float dt, sf::RenderWindow& window);
+	void update(float dt, sf::RenderWindow& window, Basket& basket);
 	void setCenterPosition(sf::Vector2f position);
 	void initializeVelocity(sf::Vector2f velocity);
 	bool checkIfClicked(sf::Vector2f position);
@@ -21,7 +22,7 @@ private:
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-	void collisionHandler(sf::RenderWindow& window);
+	void collisionHandler(sf::RenderWindow& window, Basket& basket);
 	void updateVelocityWithGravity(float dt);
 	void setGravity(float gravity);
 };

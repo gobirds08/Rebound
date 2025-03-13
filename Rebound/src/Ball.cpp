@@ -21,19 +21,13 @@ void Ball::initializeVelocity(sf::Vector2f velocity) {
 	m_velocity = velocity;
 }
 
-void Ball::update(float dt, sf::RenderWindow& window) {
+void Ball::update(float dt, sf::RenderWindow& window, Basket& basket) {
 	// Maybe Collision Handler Can Take In A Vector Of Shapes That Should Collide
-	collisionHandler(window);
+	collisionHandler(window, basket);
 	updateVelocityWithGravity(dt);
 	sf::Vector2f circle_position = m_circle.getPosition();
 	float x = circle_position.x + m_velocity.x * dt;
 	float y = circle_position.y + m_velocity.y * dt;
-	/*if (y + m_circle.getRadius() > window.getSize().y) {
-		y = (int)(window.getSize().y - m_circle.getRadius());
-	}
-	if (y - m_circle.getRadius() <= 0) {
-		y = 1 + m_circle.getRadius();
-	}*/
 	setCenterPosition({ x, y });
 }
 
@@ -70,29 +64,35 @@ void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(y_text, states);
 }
 
-void Ball::collisionHandler(sf::RenderWindow& window) {
+void Ball::collisionHandler(sf::RenderWindow& window, Basket& basket) {
+	
 	sf::Vector2f position = m_circle.getPosition();
 	float radius = m_circle.getRadius();
-	sf::Vector2u window_size = window.getSize();
-	std::cout << position.y - radius << std::endl;
-	if (position.y - radius <= 1) {
-		m_velocity.y *= -.8;
-		m_velocity.x *= .999;
-		m_circle.setPosition({ position.x, radius + 1 });
-	}
-	if (position.y + radius >= window_size.y) {
-		m_velocity.y *= -.8;
-		m_velocity.x *= .999;
-		m_circle.setPosition({ position.x, window_size.y - radius - 1 });
-	}
-	if (position.x - radius <= 0) {
-		m_velocity.x *= -.8;
-		m_circle.setPosition({ radius + 1, position.y });
-	}
-	if (position.x + radius >= window_size.x) {
-		m_velocity.x *= -.8;
-		m_circle.setPosition({ window_size.x - radius - 1, position.y });
-	}
+	{
+		sf::Vector2u window_size = window.getSize();
 
+		// TODO: Handle collisions on bottom when ball is towards end of bouncing
+
+		if (position.y - radius <= 1) {
+			m_velocity.y *= -.8;
+			m_velocity.x *= .999;
+			m_circle.setPosition({ position.x, radius + 1 });
+		}
+		if (position.y + radius >= window_size.y) {
+			m_velocity.y *= -.8;
+			m_velocity.x *= .999;
+			m_circle.setPosition({ position.x, window_size.y - radius - 1 });
+		}
+		if (position.x - radius <= 0) {
+			m_velocity.x *= -.8;
+			m_circle.setPosition({ radius + 1, position.y });
+		}
+		if (position.x + radius >= window_size.x) {
+			m_velocity.x *= -.8;
+			m_circle.setPosition({ window_size.x - radius - 1, position.y });
+		}
+	}
 	// May Need To Implement More For Other Potential Objects
+
+	// Handle Basket Collision Here
 }
