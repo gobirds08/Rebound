@@ -21,7 +21,7 @@ void Ball::initializeVelocity(sf::Vector2f velocity) {
 	m_velocity = velocity;
 }
 
-void Ball::update(float dt, sf::RenderWindow& window, Basket& basket) {
+void Ball::update(float dt, sf::RenderWindow& window, std::shared_ptr<Basket> basket) {
 	// Maybe Collision Handler Can Take In A Vector Of Shapes That Should Collide
 	collisionHandler(window, basket);
 	updateVelocityWithGravity(dt);
@@ -64,7 +64,7 @@ void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(y_text, states);
 }
 
-void Ball::collisionHandler(sf::RenderWindow& window, Basket& basket) {
+void Ball::collisionHandler(sf::RenderWindow& window, std::shared_ptr<Basket> basket) {
 	
 	sf::Vector2f position = m_circle.getPosition();
 	float radius = m_circle.getRadius();
@@ -95,4 +95,7 @@ void Ball::collisionHandler(sf::RenderWindow& window, Basket& basket) {
 	// May Need To Implement More For Other Potential Objects
 
 	// Handle Basket Collision Here
+	sf::Vector2f hitDirection = basket->getHitDirection(position);
+	m_velocity.x *= hitDirection.x;
+	m_velocity.y *= hitDirection.y;
 }

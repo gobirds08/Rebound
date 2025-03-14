@@ -45,9 +45,9 @@ void Game::initInGame() {
     /*m_ball->initializeVelocity({200, -50});*/
     m_shapes.push_back(m_ball);
 
-    m_basket = std::make_unique<Basket>();
+    m_basket = std::make_shared<Basket>();
     m_basket->setPosition({ 200, 100 });
-    m_shapes.push_back(std::move(m_basket));
+    m_shapes.push_back(m_basket);
 
     m_game_state = GameState::InGame;
 }
@@ -72,7 +72,7 @@ void Game::run() {
         m_window.clear();
 
         if (m_game_state == GameState::InGame) {
-            m_ball->update(deltaTime, m_window, *m_basket);
+            m_ball->update(deltaTime, m_window, m_basket);
         }
 
         // TODO: Call Update Function and pass in dt and maybe gameState

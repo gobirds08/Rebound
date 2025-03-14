@@ -35,15 +35,15 @@ sf::Vector2f Basket::getHitDirection(sf::Vector2f position) {
 			float minDist = std::min({ leftDist, rightDist, topDist, bottomDist });
 
 			if (minDist == leftDist || minDist == rightDist) {
-				return { 1, 0 }; 
+				return { -1, 1 }; 
 			}
 			else {
-				return { 0, 1 }; 
+				return { 1, -1 }; 
 			}
 		}
 	}
 
-	return { 0, 0 };
+	return { 1, 1 };
 }
 
 void Basket::draw(sf::RenderTarget& target, sf::RenderStates states) const {

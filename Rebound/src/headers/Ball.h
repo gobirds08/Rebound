@@ -9,7 +9,7 @@ class Ball : public sf::Drawable {
 public:
 	Ball(float radius);
 
-	void update(float dt, sf::RenderWindow& window, Basket& basket);
+	void update(float dt, sf::RenderWindow& window, std::shared_ptr<Basket> basket);
 	void setCenterPosition(sf::Vector2f position);
 	void initializeVelocity(sf::Vector2f velocity);
 	bool checkIfClicked(sf::Vector2f position);
@@ -22,7 +22,7 @@ private:
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-	void collisionHandler(sf::RenderWindow& window, Basket& basket);
+	void collisionHandler(sf::RenderWindow& window, std::shared_ptr<Basket> basket);
 	void updateVelocityWithGravity(float dt);
 	void setGravity(float gravity);
 };
