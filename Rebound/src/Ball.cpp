@@ -95,7 +95,7 @@ void Ball::collisionHandler(sf::RenderWindow& window, std::shared_ptr<Basket> ba
 	// May Need To Implement More For Other Potential Objects
 
 	// Handle Basket Collision Here
-	sf::Vector2f hitDirection = basket->getHitDirection(position);
+	sf::Vector2f hitDirection = basket->getHitDirection(position, radius);
 	m_velocity.x *= hitDirection.x;
 	m_velocity.y *= hitDirection.y;
 }

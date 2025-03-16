@@ -22,11 +22,17 @@ sf::Vector2f Basket::getPosition() {
 	return m_center_position;
 }
 
-sf::Vector2f Basket::getHitDirection(sf::Vector2f position) {
+sf::Vector2f Basket::getHitDirection(sf::Vector2f position, float radius) {
 	for (int i = 0; i < 3; i++) {
 		sf::FloatRect rectBounds = m_basket_rects[i].getGlobalBounds();
 
-		if (rectBounds.contains(position)) {
+		sf::Vector2f expandedPosition = rectBounds.position - sf::Vector2f(radius, radius);
+		sf::Vector2f expandedSize = rectBounds.size + sf::Vector2f(2 * radius, 2 * radius);
+
+		if (position.x >= expandedPosition.x && position.x <= expandedPosition.x + expandedSize.x &&
+			position.y >= expandedPosition.y && position.y <= expandedPosition.y + expandedSize.y) {
+
+			// Calculate distances from the original (non-expanded) rectangle
 			float leftDist = std::abs(position.x - rectBounds.position.x);
 			float rightDist = std::abs(position.x - (rectBounds.position.x + rectBounds.size.x));
 			float topDist = std::abs(position.y - rectBounds.position.y);

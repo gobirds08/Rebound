@@ -12,7 +12,7 @@ public:
 
 	void setPosition(sf::Vector2f position);
 	sf::Vector2f getPosition();
-	sf::Vector2f getHitDirection(sf::Vector2f position);
+	sf::Vector2f getHitDirection(sf::Vector2f position, float radius);
 
 private:
 	std::array<sf::RectangleShape, 3> m_basket_rects;
