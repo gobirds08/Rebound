@@ -22,35 +22,66 @@ sf::Vector2f Basket::getPosition() {
 	return m_center_position;
 }
 
-sf::Vector2f Basket::getHitDirection(sf::Vector2f position, float radius) {
-	for (int i = 0; i < 3; i++) {
-		sf::FloatRect rectBounds = m_basket_rects[i].getGlobalBounds();
+CollisionResult Basket::getHitDirection(sf::Vector2f position, float radius) {
+    for (int i = 0; i < 3; i++) {
+        // Retrieve the rectangle's position (center) and size
+        sf::Vector2f rectCenter = m_basket_rects[i].getPosition();
+        sf::Vector2f rectSize = m_basket_rects[i].getSize();
 
-		sf::Vector2f expandedPosition = rectBounds.position - sf::Vector2f(radius, radius);
-		sf::Vector2f expandedSize = rectBounds.size + sf::Vector2f(2 * radius, 2 * radius);
+        // Calculate the true top-left corner of the rectangle
+        sf::Vector2f rectTopLeft = rectCenter - (rectSize / 2.0f);
 
-		if (position.x >= expandedPosition.x && position.x <= expandedPosition.x + expandedSize.x &&
-			position.y >= expandedPosition.y && position.y <= expandedPosition.y + expandedSize.y) {
+        // Calculate the expanded area of the rectangle by the ball's radius
+        sf::Vector2f expandedPosition = rectTopLeft - sf::Vector2f(radius, radius);
+        sf::Vector2f expandedSize = rectSize + sf::Vector2f(2 * radius, 2 * radius);
 
-			// Calculate distances from the original (non-expanded) rectangle
-			float leftDist = std::abs(position.x - rectBounds.position.x);
-			float rightDist = std::abs(position.x - (rectBounds.position.x + rectBounds.size.x));
-			float topDist = std::abs(position.y - rectBounds.position.y);
-			float bottomDist = std::abs(position.y - (rectBounds.position.y + rectBounds.size.y));
+        // Check if the ball is within the expanded bounds
+        if (position.x >= expandedPosition.x && position.x <= expandedPosition.x + expandedSize.x &&
+            position.y >= expandedPosition.y && position.y <= expandedPosition.y + expandedSize.y) {
 
-			float minDist = std::min({ leftDist, rightDist, topDist, bottomDist });
+            // Calculate overlap distances in X and Y directions
+            float overlapLeft = (position.x + radius) - rectTopLeft.x;
+            float overlapRight = (rectTopLeft.x + rectSize.x) - (position.x - radius);
+            float overlapTop = (position.y + radius) - rectTopLeft.y;
+            float overlapBottom = (rectTopLeft.y + rectSize.y) - (position.y - radius);
 
-			if (minDist == leftDist || minDist == rightDist) {
-				return { -1, 1 }; 
-			}
-			else {
-				return { 1, -1 }; 
-			}
-		}
-	}
+            // Find the smallest overlap to determine collision direction
+            float minOverlapX = std::min(overlapLeft, overlapRight);
+            float minOverlapY = std::min(overlapTop, overlapBottom);
 
-	return { 1, 1 };
+            CollisionResult result;
+            result.newPosition = position;
+
+            if (minOverlapX < minOverlapY) {
+                result.hitDirection = { -1, 1 };  // Left or Right hit
+
+                // Adjust position based on where the collision occurred
+                if (overlapLeft < overlapRight)
+                    result.newPosition.x = rectTopLeft.x - radius - 0.1f; // Push left
+                else
+                    result.newPosition.x = rectTopLeft.x + rectSize.x + radius + 0.1f; // Push right
+            }
+            else {
+                result.hitDirection = { 1, -1 };  // Top or Bottom hit
+
+                // Adjust position based on where the collision occurred
+                if (overlapTop < overlapBottom)
+                    result.newPosition.y = rectTopLeft.y - radius - 0.1f; // Push above
+                else
+                    result.newPosition.y = rectTopLeft.y + rectSize.y + radius + 0.1f; // Push below
+            }
+
+            return result;  // Return the new position and the hit direction
+        }
+    }
+
+    // No collision detected, return original position and neutral hit direction
+    return { position, {1, 1} };
 }
+
+
+
+
 
 void Basket::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(m_basket_rects[0], states);

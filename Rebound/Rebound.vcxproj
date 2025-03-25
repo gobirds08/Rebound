@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="src\headers\Basket.h" />
     <ClInclude Include="src\headers\Button.h" />
+    <ClInclude Include="src\headers\CollisionResult.h" />
     <ClInclude Include="src\headers\Game.h" />
     <ClInclude Include="src\headers\Ball.h" />
   </ItemGroup>

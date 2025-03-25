@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "CollisionResult.h"
 
 constexpr int BASKET_WIDTH = 30;
 constexpr int BASKET_HEIGHT = 30;
@@ -12,7 +13,7 @@ public:
 
 	void setPosition(sf::Vector2f position);
 	sf::Vector2f getPosition();
-	sf::Vector2f getHitDirection(sf::Vector2f position, float radius);
+	CollisionResult getHitDirection(sf::Vector2f position, float radius);
 
 private:
 	std::array<sf::RectangleShape, 3> m_basket_rects;

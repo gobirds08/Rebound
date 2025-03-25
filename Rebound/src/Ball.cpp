@@ -7,6 +7,9 @@ Ball::Ball(float radius) :
 	m_circle.setOrigin({ radius, radius });
 	m_velocity = { 0, 0 };
 	m_gravity = DEFAULT_GRAVITY;
+	m_is_colliding = false;
+
+	m_hit_count = 0;
 }
 
 void Ball::setCenterPosition(sf::Vector2f position) {
@@ -62,6 +65,10 @@ void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	sf::Text y_text(font, std::to_string(m_velocity.y));
 	y_text.setPosition({ 600, 50 });
 	target.draw(y_text, states);
+
+	sf::Text hit_text(font, std::to_string(m_hit_count));
+	hit_text.setPosition({ 600, 400 });
+	target.draw(hit_text, states);
 }
 
 void Ball::collisionHandler(sf::RenderWindow& window, std::shared_ptr<Basket> basket) {
@@ -95,7 +102,20 @@ void Ball::collisionHandler(sf::RenderWindow& window, std::shared_ptr<Basket> ba
 	// May Need To Implement More For Other Potential Objects
 
 	// Handle Basket Collision Here
-	sf::Vector2f hitDirection = basket->getHitDirection(position, radius);
-	m_velocity.x *= hitDirection.x;
-	m_velocity.y *= hitDirection.y;
+	CollisionResult collisionResult = basket->getHitDirection(position, radius);
+	m_velocity.x *= collisionResult.hitDirection.x;
+	m_velocity.y *= collisionResult.hitDirection.y;
+
+	if (collisionResult.hitDirection.x != 1 || collisionResult.hitDirection.y != 1) {
+		if (!m_is_colliding) {
+			m_hit_count++;
+			m_velocity.x *= collisionResult.hitDirection.x;
+			m_velocity.y *= collisionResult.hitDirection.y;
+			m_is_colliding = true;
+			m_circle.setPosition(collisionResult.newPosition);
+		}
+	}
+	else {
+		m_is_colliding = false;
+	}
 }

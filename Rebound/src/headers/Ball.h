@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Basket.h"
+#include "CollisionResult.h"
 
 constexpr float DEFAULT_GRAVITY = 75.0f;
 constexpr float LAUNCH_CONSTANT = 3;
@@ -19,6 +20,8 @@ private:
 	sf::CircleShape m_circle;
 	sf::Vector2f m_velocity;
 	float m_gravity;
+	bool m_is_colliding;
+	int m_hit_count;
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
