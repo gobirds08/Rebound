@@ -147,6 +147,7 @@
     <ClInclude Include="src\headers\CollisionResult.h" />
     <ClInclude Include="src\headers\Game.h" />
     <ClInclude Include="src\headers\Ball.h" />
+    <ClInclude Include="src\headers\Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\arial.ttf" />

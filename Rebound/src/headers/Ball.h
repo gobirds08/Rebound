@@ -15,12 +15,14 @@ public:
 	void initializeVelocity(sf::Vector2f velocity);
 	bool checkIfClicked(sf::Vector2f position);
 	void launch(sf::Vector2f start, sf::Vector2f end);
+	bool isMoving();
 
 private:
 	sf::CircleShape m_circle;
 	sf::Vector2f m_velocity;
 	float m_gravity;
 	bool m_is_colliding;
+	bool m_is_moving;
 	int m_hit_count;
 
 private:

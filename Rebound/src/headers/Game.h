@@ -31,6 +31,7 @@ private:
 	bool m_isDragging;
 	sf::Vector2f m_start_drag;
 	sf::Vector2f m_end_drag;
+	uint32_t score;
 	
 
 private:

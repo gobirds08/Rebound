@@ -10,6 +10,7 @@ Game::Game()
     }
     initMainMenu();
     m_isDragging = false;
+    score = 0;
 }
 
 void Game::initMainMenu() {
@@ -41,12 +42,11 @@ void Game::initMainMenu() {
 void Game::initInGame() {
     m_shapes.clear();
     m_ball = std::make_shared<Ball>(10.0f);
-    m_ball->setCenterPosition({ 100.0f, 400.0f });
-    /*m_ball->initializeVelocity({200, -50});*/
+    m_ball->setCenterPosition({ 100.0f, 490.0f });
     m_shapes.push_back(m_ball);
 
     m_basket = std::make_shared<Basket>();
-    m_basket->setPosition({ 200, 100 });
+    m_basket->spawnRandomPosition(m_window);
     m_shapes.push_back(m_basket);
 
     m_game_state = GameState::InGame;
@@ -71,11 +71,10 @@ void Game::run() {
 
         m_window.clear();
 
-        if (m_game_state == GameState::InGame) {
+        if (m_game_state == GameState::InGame && m_ball->isMoving()) {
             m_ball->update(deltaTime, m_window, m_basket);
         }
 
-        // TODO: Call Update Function and pass in dt and maybe gameState
         for (const auto& shape : m_shapes) {
             m_window.draw(*shape);
         }

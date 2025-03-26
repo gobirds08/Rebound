@@ -18,6 +18,17 @@ void Basket::setPosition(sf::Vector2f position) {
 	m_center_position = position;
 }
 
+void Basket::spawnRandomPosition(sf::RenderWindow& window) {
+    sf::Vector2u window_size = window.getSize();
+    sf::Vector2u max = { window_size.x - BASKET_WIDTH, window_size.y - BASKET_HEIGHT};
+    sf::Vector2u min = { BASKET_WIDTH, BASKET_HEIGHT };
+
+    int x = RandomUtils::getRandomInt(min.x, max.x);
+    int y = RandomUtils::getRandomInt(min.y, max.y);
+
+    setPosition({ static_cast<float>(x), static_cast<float>(y) });
+}
+
 sf::Vector2f Basket::getPosition() {
 	return m_center_position;
 }

@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "CollisionResult.h"
+#include "Utility.h"
 
 constexpr int BASKET_WIDTH = 30;
 constexpr int BASKET_HEIGHT = 30;
@@ -15,6 +16,7 @@ public:
 	sf::Vector2f getPosition();
 	CollisionResult getHitDirection(sf::Vector2f position, float radius);
 	bool hitCenter(sf::CircleShape circle) const;
+	void spawnRandomPosition(sf::RenderWindow& window);
 
 private:
 	std::array<sf::RectangleShape, 3> m_basket_rects;

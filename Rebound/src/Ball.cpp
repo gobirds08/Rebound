@@ -8,6 +8,7 @@ Ball::Ball(float radius) :
 	m_velocity = { 0, 0 };
 	m_gravity = DEFAULT_GRAVITY;
 	m_is_colliding = false;
+	m_is_moving = false;
 
 	m_hit_count = 0;
 }
@@ -20,6 +21,11 @@ void Ball::setGravity(float gravity) {
 	m_gravity = gravity;
 }
 
+bool Ball::isMoving() {
+	return m_is_moving;
+}
+
+// Probably can get rid of this
 void Ball::initializeVelocity(sf::Vector2f velocity) {
 	m_velocity = velocity;
 }
@@ -47,6 +53,8 @@ bool Ball::checkIfClicked(sf::Vector2f position) {
 }
 
 void Ball::launch(sf::Vector2f start, sf::Vector2f end) {
+	m_is_moving = true;
+
 	sf::Vector2f launch_velocity;
 	launch_velocity.x = LAUNCH_CONSTANT * (start.x - end.x);
 	launch_velocity.y = LAUNCH_CONSTANT * (start.y - end.y);
@@ -102,7 +110,7 @@ void Ball::collisionHandler(sf::RenderWindow& window, std::shared_ptr<Basket> ba
 
 	if (basket->hitCenter(m_circle)) {
 		// Respawn Basket and Ball
-
+		basket->spawnRandomPosition(window);
 		// Update Score
 
 		return;
