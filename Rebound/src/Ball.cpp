@@ -99,7 +99,14 @@ void Ball::collisionHandler(sf::RenderWindow& window, std::shared_ptr<Basket> ba
 			m_circle.setPosition({ window_size.x - radius - 1, position.y });
 		}
 	}
-	// May Need To Implement More For Other Potential Objects
+
+	if (basket->hitCenter(m_circle)) {
+		// Respawn Basket and Ball
+
+		// Update Score
+
+		return;
+	}
 
 	// Handle Basket Collision Here
 	CollisionResult collisionResult = basket->getHitDirection(position, radius);

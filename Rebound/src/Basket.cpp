@@ -24,28 +24,22 @@ sf::Vector2f Basket::getPosition() {
 
 CollisionResult Basket::getHitDirection(sf::Vector2f position, float radius) {
     for (int i = 0; i < 3; i++) {
-        // Retrieve the rectangle's position (center) and size
         sf::Vector2f rectCenter = m_basket_rects[i].getPosition();
         sf::Vector2f rectSize = m_basket_rects[i].getSize();
 
-        // Calculate the true top-left corner of the rectangle
         sf::Vector2f rectTopLeft = rectCenter - (rectSize / 2.0f);
 
-        // Calculate the expanded area of the rectangle by the ball's radius
         sf::Vector2f expandedPosition = rectTopLeft - sf::Vector2f(radius, radius);
         sf::Vector2f expandedSize = rectSize + sf::Vector2f(2 * radius, 2 * radius);
 
-        // Check if the ball is within the expanded bounds
         if (position.x >= expandedPosition.x && position.x <= expandedPosition.x + expandedSize.x &&
             position.y >= expandedPosition.y && position.y <= expandedPosition.y + expandedSize.y) {
 
-            // Calculate overlap distances in X and Y directions
             float overlapLeft = (position.x + radius) - rectTopLeft.x;
             float overlapRight = (rectTopLeft.x + rectSize.x) - (position.x - radius);
             float overlapTop = (position.y + radius) - rectTopLeft.y;
             float overlapBottom = (rectTopLeft.y + rectSize.y) - (position.y - radius);
 
-            // Find the smallest overlap to determine collision direction
             float minOverlapX = std::min(overlapLeft, overlapRight);
             float minOverlapY = std::min(overlapTop, overlapBottom);
 
@@ -55,28 +49,33 @@ CollisionResult Basket::getHitDirection(sf::Vector2f position, float radius) {
             if (minOverlapX < minOverlapY) {
                 result.hitDirection = { -1, 1 };  // Left or Right hit
 
-                // Adjust position based on where the collision occurred
                 if (overlapLeft < overlapRight)
-                    result.newPosition.x = rectTopLeft.x - radius - 0.1f; // Push left
+                    result.newPosition.x = rectTopLeft.x - radius - 0.1f;
                 else
-                    result.newPosition.x = rectTopLeft.x + rectSize.x + radius + 0.1f; // Push right
+                    result.newPosition.x = rectTopLeft.x + rectSize.x + radius + 0.1f; 
             }
             else {
-                result.hitDirection = { 1, -1 };  // Top or Bottom hit
+                result.hitDirection = { 1, -1 }; // Top or Bottom Hit
 
-                // Adjust position based on where the collision occurred
                 if (overlapTop < overlapBottom)
-                    result.newPosition.y = rectTopLeft.y - radius - 0.1f; // Push above
+                    result.newPosition.y = rectTopLeft.y - radius - 0.1f;
                 else
-                    result.newPosition.y = rectTopLeft.y + rectSize.y + radius + 0.1f; // Push below
+                    result.newPosition.y = rectTopLeft.y + rectSize.y + radius + 0.1f;
             }
 
-            return result;  // Return the new position and the hit direction
+            return result;
         }
     }
 
-    // No collision detected, return original position and neutral hit direction
     return { position, {1, 1} };
+}
+
+bool Basket::hitCenter(sf::CircleShape circle) const {
+    sf::FloatRect rectBounds = circle.getGlobalBounds();
+    if (rectBounds.contains(m_center_position)) {
+        return true;
+    }
+    return false;
 }
 
 

@@ -14,6 +14,7 @@ public:
 	void setPosition(sf::Vector2f position);
 	sf::Vector2f getPosition();
 	CollisionResult getHitDirection(sf::Vector2f position, float radius);
+	bool hitCenter(sf::CircleShape circle) const;
 
 private:
 	std::array<sf::RectangleShape, 3> m_basket_rects;

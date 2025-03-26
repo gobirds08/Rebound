@@ -3,8 +3,8 @@
 #include "Basket.h"
 #include "CollisionResult.h"
 
-constexpr float DEFAULT_GRAVITY = 75.0f;
-constexpr float LAUNCH_CONSTANT = 3;
+constexpr float DEFAULT_GRAVITY = 90.0f;
+constexpr float LAUNCH_CONSTANT = 2;
 
 class Ball : public sf::Drawable {
 public:
