@@ -20,8 +20,8 @@ void Basket::setPosition(sf::Vector2f position) {
 
 void Basket::spawnRandomPosition(sf::RenderWindow& window) {
     sf::Vector2u window_size = window.getSize();
-    sf::Vector2u max = { window_size.x - BASKET_WIDTH, window_size.y - BASKET_HEIGHT};
-    sf::Vector2u min = { BASKET_WIDTH, BASKET_HEIGHT };
+    sf::Vector2u max = { window_size.x - BASKET_WIDTH * 3, window_size.y - BASKET_HEIGHT * 3};
+    sf::Vector2u min = { BASKET_WIDTH * 3, BASKET_HEIGHT * 3 };
 
     int x = RandomUtils::getRandomInt(min.x, max.x);
     int y = RandomUtils::getRandomInt(min.y, max.y);

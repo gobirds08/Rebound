@@ -10,7 +10,7 @@ Game::Game()
     }
     initMainMenu();
     m_isDragging = false;
-    score = 0;
+    m_score = 0;
 }
 
 void Game::initMainMenu() {
@@ -42,12 +42,16 @@ void Game::initMainMenu() {
 void Game::initInGame() {
     m_shapes.clear();
     m_ball = std::make_shared<Ball>(10.0f);
-    m_ball->setCenterPosition({ 100.0f, 490.0f });
+    m_ball->setCenterPosition({ 10.0f, 490.0f });
     m_shapes.push_back(m_ball);
 
     m_basket = std::make_shared<Basket>();
     m_basket->spawnRandomPosition(m_window);
     m_shapes.push_back(m_basket);
+
+    m_score_text = std::make_shared<sf::Text>(m_font, std::to_string(m_score));
+    m_score_text->setPosition({ 750, 20 });
+    m_shapes.push_back(m_score_text);
 
     m_game_state = GameState::InGame;
 }
@@ -80,6 +84,23 @@ void Game::run() {
         }
 
         m_window.display();
+    }
+}
+
+
+void Game::updateScore() {
+    // Can make this more complex later. Maybe have some score streaks / time dependent scoring
+    m_score++;
+    m_score_text->setString(std::to_string(m_score));
+}
+
+void Game::scoreCheck() {
+    if (m_basket->hitCenter(m_ball->getCircle())) {
+        // Respawn Basket and Ball
+        m_basket->spawnRandomPosition(m_window);
+        m_ball->setCenterPosition({ 10.0f, 490.0f });
+        // Update Score
+        updateScore();
     }
 }
 

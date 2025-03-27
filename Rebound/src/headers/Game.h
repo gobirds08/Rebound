@@ -31,7 +31,8 @@ private:
 	bool m_isDragging;
 	sf::Vector2f m_start_drag;
 	sf::Vector2f m_end_drag;
-	uint32_t score;
+	uint32_t m_score;
+	std::shared_ptr<sf::Text> m_score_text;
 	
 
 private:
@@ -42,5 +43,7 @@ private:
 	void handleMouseLeftClick(sf::Vector2f position);
 	void initMainMenu();
 	void initInGame();
+	void updateScore();
+	void scoreCheck();
 };
 

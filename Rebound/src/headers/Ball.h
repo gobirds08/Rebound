@@ -16,6 +16,7 @@ public:
 	bool checkIfClicked(sf::Vector2f position);
 	void launch(sf::Vector2f start, sf::Vector2f end);
 	bool isMoving();
+	sf::CircleShape getCircle();
 
 private:
 	sf::CircleShape m_circle;

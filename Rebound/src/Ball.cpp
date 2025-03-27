@@ -25,6 +25,10 @@ bool Ball::isMoving() {
 	return m_is_moving;
 }
 
+sf::CircleShape Ball::getCircle() {
+	return m_circle;
+}
+
 // Probably can get rid of this
 void Ball::initializeVelocity(sf::Vector2f velocity) {
 	m_velocity = velocity;
@@ -70,10 +74,6 @@ void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	if (!font.openFromFile("fonts/arial.ttf")) {
 		throw std::runtime_error("Failed to load font");
 	}
-	sf::Text y_text(font, std::to_string(m_velocity.y));
-	y_text.setPosition({ 600, 50 });
-	target.draw(y_text, states);
-
 	sf::Text hit_text(font, std::to_string(m_hit_count));
 	hit_text.setPosition({ 600, 400 });
 	target.draw(hit_text, states);
@@ -106,14 +106,6 @@ void Ball::collisionHandler(sf::RenderWindow& window, std::shared_ptr<Basket> ba
 			m_velocity.x *= -.8;
 			m_circle.setPosition({ window_size.x - radius - 1, position.y });
 		}
-	}
-
-	if (basket->hitCenter(m_circle)) {
-		// Respawn Basket and Ball
-		basket->spawnRandomPosition(window);
-		// Update Score
-
-		return;
 	}
 
 	// Handle Basket Collision Here
