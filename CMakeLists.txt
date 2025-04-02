@@ -29,6 +29,14 @@ target_include_directories(Rebound PRIVATE src/headers)
 # Link SFML
 target_link_libraries(Rebound PRIVATE sfml-graphics sfml-window sfml-system)
 
+if (WIN32)
+    add_custom_command(TARGET Rebound POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            $<TARGET_FILE_DIR:sfml-graphics>
+            $<TARGET_FILE_DIR:Rebound>
+    )
+endif()
+
 # (Optional) Set working directory for assets like fonts or textures
 set_target_properties(Rebound PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/fonts"
