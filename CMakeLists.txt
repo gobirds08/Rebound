@@ -15,9 +15,19 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SFML)
 
 # Add all source and header files
-file(GLOB_RECURSE SOURCES
-    src/*.cpp
-    src/headers/*.h
+set(SOURCES
+    Rebound/src/main.cpp
+    Rebound/src/Ball.cpp
+    Rebound/src/Basket.cpp
+    Rebound/src/Button.cpp
+    Rebound/src/Game.cpp
+
+    Rebound/src/headers/Ball.h
+    Rebound/src/headers/Basket.h
+    Rebound/src/headers/Button.h
+    Rebound/src/headers/CollisionResult.h
+    Rebound/src/headers/Game.h
+    Rebound/src/headers/Utility.h
 )
 
 # Create executable
