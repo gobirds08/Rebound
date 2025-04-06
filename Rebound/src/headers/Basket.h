@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "CollisionResult.h"
 #include "Utility.h"
 

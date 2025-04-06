@@ -1,5 +1,5 @@
 #pragma once
-#include <Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "Basket.h"
 #include "CollisionResult.h"
 
