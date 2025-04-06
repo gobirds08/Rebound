@@ -35,6 +35,9 @@ add_custom_command(TARGET Rebound POST_BUILD
     "$<TARGET_FILE_DIR:Rebound>"
 )
 
-set_target_properties(Rebound PROPERTIES
-    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Rebound"
+add_custom_command(TARGET Rebound POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_SOURCE_DIR}/Rebound/fonts"
+    "$<TARGET_FILE_DIR:Rebound>/fonts"
 )
+
