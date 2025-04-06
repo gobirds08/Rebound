@@ -1,10 +1,12 @@
 #include "Game.h"
 #include <iostream>
+#include <filesystem>
 
 Game::Game()
 {
 	m_window.create(sf::VideoMode({ WIDTH, HEIGHT }), "Rebound", sf::Style::Titlebar | sf::Style::Close);
     m_game_state = GameState::MainMenu;
+    std::cout << "Current working directory: " << std::filesystem::current_path() << "\n";
     if (!m_font.openFromFile("fonts/arial.ttf")) {
         throw std::runtime_error("Failed to load font");
     }
