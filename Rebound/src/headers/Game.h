@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <Graphics.hpp>
 #include "Button.h"
 #include "Ball.h"
 #include "Basket.h"
