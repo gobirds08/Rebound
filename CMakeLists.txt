@@ -25,7 +25,7 @@ target_include_directories(Rebound PRIVATE src/headers)
 
 target_include_directories(Rebound PRIVATE "${CMAKE_SOURCE_DIR}/Dependencies/SFML/include")
 target_link_directories(Rebound PRIVATE "${CMAKE_SOURCE_DIR}/Dependencies/SFML/lib")
-target_link_libraries(MyGame sfml-graphics sfml-window sfml-system)
+target_link_libraries(Rebound sfml-graphics sfml-window sfml-system)
 
 set(SFML_DLL_DIR "${CMAKE_SOURCE_DIR}/Dependencies/SFML/bin")
 
