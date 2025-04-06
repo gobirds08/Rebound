@@ -21,7 +21,7 @@ set(SOURCES
 
 add_executable(Rebound ${SOURCES})
 
-target_include_directories(Rebound PRIVATE src/headers)
+target_include_directories(Rebound PRIVATE "${CMAKE_SOURCE_DIR}/Rebound/src/headers")
 
 target_include_directories(Rebound PRIVATE "${CMAKE_SOURCE_DIR}/Dependencies/SFML/include")
 target_link_directories(Rebound PRIVATE "${CMAKE_SOURCE_DIR}/Dependencies/SFML/lib")
